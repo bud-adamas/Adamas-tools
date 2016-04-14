@@ -64,3 +64,6 @@ target/
 # images
 *.jpg
 *.gif
+
+# files on Mac
+.DS_Store
