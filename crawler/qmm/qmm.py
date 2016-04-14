@@ -7,7 +7,7 @@ import os
 import re
 import urllib
 
-images_path="images"
+images_path="images/"
 url_done = []
 
 class MySpider(scrapy.Spider):
@@ -20,7 +20,7 @@ class MySpider(scrapy.Spider):
 
     start_urls = [
             "http://www.qiushimm.com/",                 # static files
-            "http://www.qiushimm.com/tag/gif/page/1",   # dynamic files
+            "http://www.qiushimm.com/tag/gif",   # dynamic files
                  ]
 
     def parse(self, response):
@@ -29,8 +29,8 @@ class MySpider(scrapy.Spider):
         for img_tag in img_tags:
             img_url = img_tag.xpath('@src').extract()[0]
             img_alt = img_tag.xpath('@alt').extract()[0]
-            #print(img_url + " @ " + img_alt)
             urllib.urlretrieve(img_url, images_path + img_url.split('/')[-1])
+            self.logger.info("Got " + img_url)
 
         for url_selector in response.xpath("//*/div[11]/div/a/@href"):
             url = url_selector.extract()
