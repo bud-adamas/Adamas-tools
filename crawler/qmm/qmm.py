@@ -22,7 +22,7 @@ class QmmSpider(scrapy.Spider):
 
         # the crawled pages, only valid at this class scope.
         # as these pages are generated dynamically.
-        url_done = []
+        self.url_done = []
 
     start_urls = [
             "http://www.qiushimm.com/",                 # static files
