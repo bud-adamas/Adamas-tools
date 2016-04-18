@@ -15,3 +15,7 @@ TODO:
         is_duplicated = duplicated_checker.check(file = 'xxx')
         if not is_duplicated:
             xxx
+
+    * Deal with the link to a file
+        Hard link, just remove like normal file,
+        Soft link, remove the link.
