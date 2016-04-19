@@ -31,7 +31,7 @@ class ZgallerieSpider(scrapy.Spider):
     def parse(self, response):
         image_list = response.xpath('//*[@id="myDiv"]/div/div/div[1]/a')
 
-        for image in image_list[500:]:
+        for image in image_list:
             img_detail_url = image.xpath('@href').extract()[0]
             image_url = "http:" + image.xpath('img/@src').extract()[0]
 

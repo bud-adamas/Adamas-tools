@@ -15,6 +15,7 @@ cwd_path=os.getcwd()
 saved_html_name="Stylish.html"
 file_url = "file://" + cwd_path + "/" + saved_html_name
 
+
 class ZgallerieSpider(scrapy.Spider):
 
     name = "zgallerie"
@@ -32,11 +33,10 @@ class ZgallerieSpider(scrapy.Spider):
     def parse(self, response):
         image_list = response.xpath('//*[@id="myDiv"]/div/div/div[1]/a')
 
-        for image in image_list[500:]:
+        for image in image_list:
             img_detail_url = image.xpath('@href').extract()[0]
 
             self.logger.info("Go to " + img_detail_url)
-            time.sleep(10)
             yield Request(img_detail_url.replace('https', 'http'), callback=self.parse_item)
 
     def parse_item(self, response):
@@ -49,11 +49,17 @@ class ZgallerieSpider(scrapy.Spider):
         HiddenProductDetails = response.xpath('//*[@id="HiddenProductDetails"]').extract()[0]
         r = re.compile('.*SjZViewer\((.*)\)')
         m = r.match(HiddenProductDetails.replace('\'', '')).groups()[0]
-        url = "".join(m.split(',')[0:2]) + "?rect=0,0,1000,1000&scl=2.315789473684211"
+        url_base = "".join(m.split(',')[0:2])
+        url_params = "?rect=0,0,1000,1000&scl=2.315789473684211"
+        url = url_base + url_params
 
         # download
         img_path = images_path + image_name
+        url_file = open('url_file', 'a')
+        url_file.write("urllib.urlretrieve(\"" + url_base + "?\" + rect + \"&\" + scl" + ", \"" + img_path + "\")\n")
+        url_file.close()
         if not os.access(img_path, os.R_OK):
+            time.sleep(10)
             urllib.urlretrieve(url, img_path)
             self.logger.info("Got " + image_url)
         else:
