@@ -28,6 +28,8 @@ if __name__ == '__main__':
 
     for file in [x for x in files if x[-4:] == ".jpg"]:
       # all files in JPG format
+
+      # take the string before ' (1)' as the prefix
       file_prefix = re.match('(.*?)( \(\d+\))?.jpg', file).groups()[0]
       if file_prefix in cupboard:
         cupboard[file_prefix].append(root + os.sep + file)
