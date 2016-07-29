@@ -67,3 +67,8 @@ target/
 
 # files on Mac
 .DS_Store
+
+# temporary files
+*.swp
+*.swo
+
