@@ -45,7 +45,11 @@ if __name__ == '__main__':
 
     cupboard[drawer].sort()
     for file in cupboard[drawer]:
-      im = Image.open(file)
+      try:
+        im = Image.open(file)
+      except IOError:
+        print("File {0} has been broken".format(file))
+        continue
       width, height = im.size
       print("file {0}, width {1}, height {2}".format(file, width, height))
       if file_to_keep == "":
@@ -57,4 +61,5 @@ if __name__ == '__main__':
           height_to_keep = height
 
     # then move the file to keep to somewhere
-    shutil.copy(file_to_keep, keep_path)
+    if file_to_keep != "":
+      shutil.copy(file_to_keep, keep_path)
